@@ -45,7 +45,7 @@ component {
 		command( "tokenReplace" )
 			.params(
 				path        = "/#variables.cwd#/**",
-				token       = "@MODULE_NAME@",
+				token       = "bx-sqlite",
 				replacement = moduleName
 			)
 			.run();
@@ -53,7 +53,7 @@ component {
 		command( "tokenReplace" )
 			.params(
 				path        = "/#variables.cwd#/**",
-				token       = "@MODULE_REGISTERED_NAME@",
+				token       = "bx-sqlite",
 				replacement = moduleRegisteredName
 			)
 			.run();
@@ -61,7 +61,7 @@ component {
 		command( "tokenReplace" )
 			.params(
 				path        = "/#variables.cwd#/**",
-				token       = "@MODULE_SLUG@",
+				token       = "bx-sqlite",
 				replacement = moduleSlug
 			)
 			.run();
@@ -69,7 +69,7 @@ component {
 		command( "tokenReplace" )
 			.params(
 				path        = "/#variables.cwd#/**",
-				token       = "@MODULE_DESCRIPTION@",
+				token       = "SQLite DB Driver for BoxLang",
 				replacement = moduleDescription
 			)
 			.run();

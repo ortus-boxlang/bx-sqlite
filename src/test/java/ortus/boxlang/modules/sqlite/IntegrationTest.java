@@ -12,12 +12,17 @@
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package ortus.boxlang.moduleslug;
+package ortus.boxlang.modules.sqlite;
 
 import static com.google.common.truth.Truth.assertThat;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import ortus.boxlang.runtime.config.segments.DatasourceConfig;
+import ortus.boxlang.runtime.scopes.Key;
+import ortus.boxlang.runtime.types.Query;
+import ortus.boxlang.runtime.types.Struct;
 
 /**
  * This loads the module and runs an integration test on the module.
@@ -32,32 +37,37 @@ public class IntegrationTest extends BaseIntegrationTest {
 		// Then
 		assertThat( moduleService.getRegistry().containsKey( moduleName ) ).isTrue();
 
-		// Verify things got registered
-		// assertThat( datasourceService.hasDriver( Key.of( "derby" ) ) ).isTrue();
-
 		// Register a named datasource
-		// runtime.getConfiguration().runtime.datasources.put(
-		// Key.of( "derby" ),
-		// DatasourceConfig.fromStruct( Struct.of(
-		// "name", "derby",
-		// "driver", "derby",
-		// "properties", Struct.of(
-		// "database", "testDB",
-		// "protocol", "memory"
-		// )
-		// ) )
-		// );
+		runtime.getConfiguration().datasources.put(
+		    Key.of( "sqlite" ),
+		    new DatasourceConfig(
+		        "sqlite",
+		        Struct.of(
+		            "driver", "sqlite",
+		            "database", "testDB"
+		        )
+		    )
+		);
 
 		// @formatter:off
 		runtime.executeSource(
 		    """
-			// Testing code here
+				try{
+					queryExecute( "DROP table developers", [], { "datasource": "sqlite" } );
+				}catch( any e ){
+					// Ignore
+				}
+				queryExecute( "CREATE TABLE developers ( id INTEGER, name VARCHAR(155), role VARCHAR(155) )", [], { "datasource": "sqlite" } );
+				queryExecute( "INSERT INTO developers ( id, name, role ) VALUES ( 77, 'Michael Born', 'Developer' )", [], { "datasource": "sqlite" } );
+				result = queryExecute( "SELECT * FROM developers ORDER BY id", [], { "datasource": "sqlite" } );
 			""",
 		    context
 		);
 		// @formatter:on
 
-		// Asserts here
+		// Assert it executes
+		Query result = ( Query ) variables.get( Key.result );
+		assertThat( result.size() ).isEqualTo( 1 );
 
 	}
 }
