@@ -45,12 +45,12 @@ dependencies {
 	// Until BoxLang is published to Maven Central
 	// Look for it in the local build directory
 	// You must run `./gradle build -x test` in the BoxLang project
-	compileOnly "io.boxlang:boxlang:1.0.0"
+	compileOnly "io.boxlang:boxlang:1.0.1"
 
 	implementation 'org.xerial:sqlite-jdbc:3.49.1.0'
 
     // Testing Dependencies
-	testImplementation "io.boxlang:boxlang:1.0.0"
+	testImplementation "io.boxlang:boxlang:1.0.1"
     testImplementation "org.junit.jupiter:junit-jupiter:5.+"
 	testImplementation "org.mockito:mockito-core:5.+"
 	testImplementation "com.google.truth:truth:1.+"
