@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Updates
+
+- Bump org.xerial:sqlite-jdbc from 3.50.1.0 to 3.50.3.0
+
+* * *
+
 ## [1.0.0] - 2025-06-24
 
 - First iteration of this module
