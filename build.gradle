@@ -47,7 +47,7 @@ dependencies {
 	// You must run `./gradle build -x test` in the BoxLang project
 	compileOnly "io.boxlang:boxlang:1.4.0"
 
-	implementation 'org.xerial:sqlite-jdbc:3.50.1.0'
+	implementation 'org.xerial:sqlite-jdbc:3.50.3.0'
 
     // Testing Dependencies
 	testImplementation "io.boxlang:boxlang:1.4.0"
