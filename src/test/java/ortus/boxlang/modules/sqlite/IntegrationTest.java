@@ -32,22 +32,21 @@ public class IntegrationTest extends BaseIntegrationTest {
 	@DisplayName( "Test the module loads in BoxLang" )
 	@Test
 	public void testModuleLoads() {
-		// Given
-
-		// Then
+		// Verify Registrations
 		assertThat( moduleService.getRegistry().containsKey( moduleName ) ).isTrue();
-
+		assertThat( runtime.getDataSourceService().hasDriver( moduleName ) ).isTrue();
 		// Register a named datasource
 		runtime.getConfiguration().datasources.put(
-		    Key.of( "sqlite" ),
-		    new DatasourceConfig(
-		        "sqlite",
+		    moduleName,
+		    new DatasourceConfig( moduleName ).process(
 		        Struct.of(
 		            "driver", "sqlite",
 		            "database", "testDB"
 		        )
 		    )
 		);
+
+		context.clearConfigCache();
 
 		// @formatter:off
 		runtime.executeSource(
@@ -68,6 +67,5 @@ public class IntegrationTest extends BaseIntegrationTest {
 		// Assert it executes
 		Query result = ( Query ) variables.get( Key.result );
 		assertThat( result.size() ).isEqualTo( 1 );
-
 	}
 }

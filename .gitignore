@@ -13,3 +13,5 @@ bin/**
 /libs/
 src/test/resources/libs/*
 !src/test/resources/libs/.gitkeep
+# Test DB
+testDB

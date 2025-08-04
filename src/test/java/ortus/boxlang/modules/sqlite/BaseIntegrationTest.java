@@ -38,7 +38,7 @@ public abstract class BaseIntegrationTest {
 	protected static ModuleService			moduleService;
 	protected static ModuleRecord			moduleRecord;
 	protected static Key					result		= new Key( "result" );
-	protected static Key					moduleName	= new Key( "derby" );
+	protected static Key					moduleName	= new Key( "sqlite" );
 	protected ScriptingRequestBoxContext	context;
 	protected IScope						variables;
 

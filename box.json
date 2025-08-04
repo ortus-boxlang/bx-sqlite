@@ -13,10 +13,12 @@
 	"slug": "bx-sqlite",
 	"shortDescription": "Module template for BoxLang modules",
 	"type": "boxlang-modules",
-	"keywords": ["boxlang"],
+	"keywords": [
+		"boxlang"
+	],
 	"boxlang": {
 		"minimumVersion": "1.0.0",
-		"moduleName": "bx-sqlite"
+		"moduleName": "sqlite"
 	},
 	"private": false,
 	"license": [
