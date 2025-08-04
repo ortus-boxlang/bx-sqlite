@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Updates
 
 - Bump org.xerial:sqlite-jdbc from 3.50.1.0 to 3.50.3.0
+- Bump Boxlang version from 1.3.0 to 1.4.0
 
 * * *
 
