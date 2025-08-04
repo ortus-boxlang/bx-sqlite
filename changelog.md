@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   ### Fixed
 
 - fixes on build process thanks to new module schema
+- Integration tests to avoid context caching issues with v1.4
 
 * * *
 
