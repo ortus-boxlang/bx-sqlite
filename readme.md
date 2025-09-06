@@ -38,10 +38,10 @@ box install bx-sqlite
 ### Via BoxLang Module Installer
 
 ```bash
-// Into the BoxLang HOME
+# Into the BoxLang HOME
 install-bx-module bx-sqlite
 
-// Or a local folder
+# Or a local folder
 install-bx-module bx-sqlite --local
 ```
 
@@ -51,7 +51,7 @@ Once installed, you can immediately start using SQLite databases in your BoxLang
 
 ```javascript
 // Define an in-memory datasource for quick testing
-this.datasources["testDB"] = {
+this.datasources[ "testDB" ] = {
     "driver": "sqlite",
     "database": "memory:testDB"
 };
