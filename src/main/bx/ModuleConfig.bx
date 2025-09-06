@@ -11,13 +11,14 @@
  *
  * Every module will have its own classloader that will be used to load the module libs and dependencies.
  */
-
 class {
 
+	// Injections
 	property name="moduleRecord";
 	property name="boxRuntime";
 	property name="log";
 
+	// Module Properties
 	this.version = "@build.version@+@build.number@";
 	this.mapping = "sqlite";
 	this.author = "Eric Peterson";
@@ -26,6 +27,10 @@ class {
 	this.enabled = true;
 	this.dependencies = [];
 
+	/**
+	 * This method is called when the module is loaded into the runtime.
+	 * You can use this method to register custom tags, bifs, and interceptors.
+	 */
 	function configure(){}
 
 }

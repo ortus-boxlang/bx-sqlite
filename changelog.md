@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Updates
+
+- Updated all github actions
+- Updated readme and changelog templates
+- Added Github Copilot instructions file
+
 ## [1.1.0] - 2025-08-04
 
 ### Updates
