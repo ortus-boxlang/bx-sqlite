@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Skills and consolidated AGENTS.md
+- Bump org.xerial:sqlite-jdbc from 3.50.3.0 to 3.53.0.0
+
 ## [1.1.0] - 2025-08-04
 
 ### Updates
