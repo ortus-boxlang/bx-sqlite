@@ -299,6 +299,7 @@ The module includes comprehensive tests:
 
 | bx-sqlite Version | BoxLang Version | SQLite JDBC Version |
 |------------------|----------------|-------------------|
+| 1.2.x  		   | 1.4.0+         | 3.53.0.0          |
 | 1.1.x            | 1.4.0+         | 3.50.3.0          |
 | 1.0.x            | 1.3.0+         | 3.50.1.0          |
 
