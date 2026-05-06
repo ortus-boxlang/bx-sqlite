@@ -14,9 +14,12 @@
  */
 package ortus.boxlang.modules.sqlite;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.UUID;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -50,6 +53,7 @@ public abstract class BaseIntegrationTest {
 
 	@BeforeEach
 	public void setupEach() {
+		runtime.getDataSourceService().clear();
 
 		// Create the mock contexts
 		context		= new ScriptingRequestBoxContext();
@@ -57,6 +61,12 @@ public abstract class BaseIntegrationTest {
 
 		// Load the module
 		loadModule();
+	}
+
+	@AfterEach
+	public void teardownEach() {
+		runtime.getDataSourceService().clear();
+		runtime.getConfiguration().datasources.remove( moduleName );
 	}
 
 	protected void loadModule() {
@@ -69,6 +79,16 @@ public abstract class BaseIntegrationTest {
 		    .loadDescriptor( context )
 		    .register( context )
 		    .activate( context );
+	}
+
+	protected String freshMemoryDatabase( String name ) {
+		return "memory:" + name + "-" + UUID.randomUUID() + ";create=true";
+	}
+
+	protected String freshFileDatabase( String name ) throws Exception {
+		Path	tempDir	= Files.createTempDirectory( "sqlite-test-" );
+		Path	dbFile	= tempDir.resolve( name + ".db" );
+		return dbFile.toAbsolutePath().toString();
 	}
 
 }

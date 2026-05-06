@@ -50,7 +50,7 @@ install-bx-module bx-sqlite --local
 Once installed, you can immediately start using SQLite databases in your BoxLang applications:
 
 ```javascript
-// Define an in-memory datasource for quick testing
+// Define an in-memory datasource for quick testing (shared cache)
 this.datasources[ "testDB" ] = {
     "driver": "sqlite",
     "database": "memory:testDB"
@@ -66,18 +66,31 @@ See [BoxLang's Defining Datasources](https://boxlang.ortusbooks.com/boxlang-lang
 
 ### In-Memory Database
 
-Perfect for testing, caching, or temporary data storage:
+Perfect for testing, caching, or temporary data storage. Named in-memory databases use SQLite's shared cache mode (`file:<name>?mode=memory&cache=shared`), allowing multiple connections to access the same in-memory database:
 
 ```javascript
+// Named in-memory database (shared across connections)
 this.datasources["testDB"] = {
     "driver": "sqlite",
     "database": "memory:testDB"
 };
 
-// Alternative syntax with create parameter
+// With additional parameters (parameters after ; are preserved for connection props)
 this.datasources["cacheDB"] = {
     "driver": "sqlite",
     "database": "memory:cacheDB;create=true"
+};
+
+// Anonymous in-memory database (single connection only)
+this.datasources["anonDB"] = {
+    "driver": "sqlite",
+    "database": ":memory:"
+};
+
+// Blank memory name resolves to :memory:
+this.datasources["blankDB"] = {
+    "driver": "sqlite",
+    "database": "memory:"
 };
 ```
 
@@ -299,6 +312,7 @@ The module includes comprehensive tests:
 
 | bx-sqlite Version | BoxLang Version | SQLite JDBC Version |
 |------------------|----------------|-------------------|
+| 1.2.x  		   | 1.4.0+         | 3.53.0.0          |
 | 1.1.x            | 1.4.0+         | 3.50.3.0          |
 | 1.0.x            | 1.3.0+         | 3.50.1.0          |
 

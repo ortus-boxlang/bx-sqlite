@@ -73,3 +73,17 @@ Integration tests require the module to be built and structured first. Tests cre
 **File-Based:** `database: "/absolute/path/to/file.db"`
 
 The driver validation requires `database` property - throws `IllegalArgumentException` if missing.
+
+## Available Agent Skills
+
+This repository includes specialized agent skills in `.agents/skills/` for BoxLang development tasks. When working on related tasks, load the relevant skill for detailed guidance:
+
+| Skill | Description |
+|-------|-------------|
+| `boxlang-core-dev-async-tasks` | BoxFuture, AsyncService, executors, BaseScheduler, ScheduledTask, cron scheduling |
+| `boxlang-core-dev-bif-development` | Creating BIFs via @BoxBIF annotation, invoke(), argument handling, member functions |
+| `boxlang-core-dev-component-development` | Custom components/tags, attribute declarations, body/output handling |
+| `boxlang-core-dev-interceptors` | Observer/Filter patterns, interceptor pools, registration, custom events |
+| `boxlang-core-dev-logging` | Logging service, BoxLangLogger, named loggers, configuration |
+| `boxlang-core-dev-module-development` | ModuleConfig.bx, lifecycle methods, registering BIFs/components/interceptors, Gradle setup, ForgeBox publishing |
+| `boxlang-core-dev-runtime-architecture` | BoxRuntime services, IBoxContext, scope chain, type system, class loader isolation, AST debugging |

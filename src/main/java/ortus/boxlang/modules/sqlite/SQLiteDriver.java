@@ -59,11 +59,47 @@ public class SQLiteDriver extends GenericJDBCDriver {
 			throw new IllegalArgumentException( "The database property is required for the SQLite JDBC Driver" );
 		}
 
+		database = normalizeMemoryDatabasePath( database );
+
 		// Build the Embedded URL
 		return String.format(
 		    "jdbc:sqlite:%s",
 		    database
 		);
+	}
+
+	/**
+	 * Normalize the memory database path to the format expected by the SQLite JDBC driver
+	 *
+	 * @param database The database string from the configuration
+	 *
+	 * @return The normalized database string
+	 */
+	private String normalizeMemoryDatabasePath( String database ) {
+		// Handle the special case of :memory: which is the default in-memory database for SQLite
+		if ( database.equals( ":memory:" ) ) {
+			return database;
+		}
+
+		// If it doesn't start with memory: it's a file path, so return as is
+		if ( !database.startsWith( "memory:" ) ) {
+			return database;
+		}
+
+		// For memory databases, we need to convert to the format expected by the SQLite JDBC driver for shared in-memory databases
+		String	memoryName	= database.substring( "memory:".length() );
+		int		paramsIndex	= memoryName.indexOf( ';' );
+		if ( paramsIndex >= 0 ) {
+			memoryName = memoryName.substring( 0, paramsIndex );
+		}
+
+		// If the memory name is blank, we can use the anonymous in-memory database
+		if ( memoryName.isBlank() ) {
+			return ":memory:";
+		}
+
+		// Return the formatted memory database URL for the SQLite JDBC driver
+		return String.format( "file:%s?mode=memory&cache=shared", memoryName );
 	}
 
 }
