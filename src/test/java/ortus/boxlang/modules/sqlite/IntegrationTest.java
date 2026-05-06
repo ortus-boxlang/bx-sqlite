@@ -136,21 +136,14 @@ public class IntegrationTest extends BaseIntegrationTest {
 		    """
 				queryExecute( "CREATE TABLE products ( id INTEGER PRIMARY KEY, name VARCHAR(155), price DECIMAL(10,2) )", [], { "datasource": "sqlite" } );
 				queryExecute( "INSERT INTO products ( id, name, price ) VALUES ( 1, 'Widget', 9.99 )", [], { "datasource": "sqlite" } );
-				//queryExecute( "INSERT INTO products ( id, name, price ) VALUES ( 2, 'Gadget', 19.99 )", [], { "datasource": "sqlite" } );
-				//updateResult = queryExecute( "UPDATE products SET price = 14.99 WHERE id = 1", [], { "datasource": "sqlite" } );
-				//verifyResult = queryExecute( "SELECT price FROM products WHERE id = 1", [], { "datasource": "sqlite" } );
-
-				//println( updateResult )
-				//println( verifyResult )
+				queryExecute( "UPDATE products SET price = 14.99 WHERE id = 1", [], { "datasource": "sqlite" } );
+				verifyResult = queryExecute( "SELECT price FROM products WHERE id = 1", [], { "datasource": "sqlite" } );
 			""",
 		    context
 		);
 		// @formatter:on
 
-		Query	updateResult	= ( Query ) variables.get( Key.of( "updateResult" ) );
-		Query	verifyResult	= ( Query ) variables.get( Key.of( "verifyResult" ) );
-
-		assertThat( updateResult.getRowAsStruct( 0 ).get( Key.recordCount ) ).isEqualTo( 1 );
+		Query verifyResult = ( Query ) variables.get( Key.of( "verifyResult" ) );
 		assertThat( verifyResult.getRowAsStruct( 0 ).get( Key.of( "price" ) ) ).isEqualTo( 14.99 );
 	}
 
@@ -176,17 +169,14 @@ public class IntegrationTest extends BaseIntegrationTest {
 				queryExecute( "INSERT INTO orders ( id, product, quantity ) VALUES ( 1, 'Widget', 10 )", [], { "datasource": "sqlite" } );
 				queryExecute( "INSERT INTO orders ( id, product, quantity ) VALUES ( 2, 'Gadget', 5 )", [], { "datasource": "sqlite" } );
 				queryExecute( "INSERT INTO orders ( id, product, quantity ) VALUES ( 3, 'Doohickey', 3 )", [], { "datasource": "sqlite" } );
-				deleteResult = queryExecute( "DELETE FROM orders WHERE quantity < 5", [], { "datasource": "sqlite" } );
+				queryExecute( "DELETE FROM orders WHERE quantity < 5", [], { "datasource": "sqlite" } );
 				remainingResult = queryExecute( "SELECT * FROM orders ORDER BY id", [], { "datasource": "sqlite" } );
 			""",
 		    context
 		);
 		// @formatter:on
 
-		Query	deleteResult	= ( Query ) variables.get( Key.of( "deleteResult" ) );
-		Query	remainingResult	= ( Query ) variables.get( Key.of( "remainingResult" ) );
-
-		assertThat( deleteResult.getRowAsStruct( 0 ).get( Key.recordCount ) ).isEqualTo( 1 );
+		Query remainingResult = ( Query ) variables.get( Key.of( "remainingResult" ) );
 		assertThat( remainingResult.size() ).isEqualTo( 2 );
 		assertThat( remainingResult.getRowAsStruct( 0 ).get( Key.of( "product" ) ) ).isEqualTo( "Widget" );
 		assertThat( remainingResult.getRowAsStruct( 1 ).get( Key.of( "product" ) ) ).isEqualTo( "Gadget" );

@@ -14,6 +14,7 @@
  */
 package ortus.boxlang.modules.sqlite;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
@@ -82,6 +83,12 @@ public abstract class BaseIntegrationTest {
 
 	protected String freshMemoryDatabase( String name ) {
 		return "memory:" + name + "-" + UUID.randomUUID() + ";create=true";
+	}
+
+	protected String freshFileDatabase( String name ) throws Exception {
+		Path	tempDir	= Files.createTempDirectory( "sqlite-test-" );
+		Path	dbFile	= tempDir.resolve( name + ".db" );
+		return dbFile.toAbsolutePath().toString();
 	}
 
 }
