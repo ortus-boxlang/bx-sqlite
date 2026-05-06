@@ -14,6 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Skills and consolidated AGENTS.md
 - Bump org.xerial:sqlite-jdbc from 3.50.3.0 to 3.53.0.0
 
+### Fixed
+
+- Normalize `database` values using the `memory:` prefix to SQLite in-memory URIs (`file:<name>?mode=memory&cache=shared`) so they no longer create files on disk.
+- Added SQLite driver regression coverage for `memory:<name>`, `memory:<name>;create=true`, and `:memory:` connection URL generation.
+- Corrected integration test assertions to use the runtime `Query` API indexing semantics and validate UPDATE/DELETE behavior via SELECT results instead of expecting row payloads from DML results.
+
 ## [1.1.0] - 2025-08-04
 
 ### Updates

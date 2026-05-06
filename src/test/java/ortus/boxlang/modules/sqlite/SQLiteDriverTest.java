@@ -47,6 +47,42 @@ public class SQLiteDriverTest {
 		assertThat( driver.buildConnectionURL( config ) ).isEqualTo( expectedURL );
 	}
 
+	@Test
+	@DisplayName( "Test buildConnectionURL() with memory:dbname" )
+	public void testBuildConnectionURLMemoryNamedDatabase() {
+		SQLiteDriver		driver	= new SQLiteDriver();
+		DatasourceConfig	config	= new DatasourceConfig();
+		config.properties.put( "driver", "sqlite" );
+		config.properties.put( "database", "memory:testDB" );
+
+		String expectedURL = "jdbc:sqlite:file:testDB?mode=memory&cache=shared";
+		assertThat( driver.buildConnectionURL( config ) ).isEqualTo( expectedURL );
+	}
+
+	@Test
+	@DisplayName( "Test buildConnectionURL() with memory:dbname;create=true" )
+	public void testBuildConnectionURLMemoryNamedDatabaseWithParams() {
+		SQLiteDriver		driver	= new SQLiteDriver();
+		DatasourceConfig	config	= new DatasourceConfig();
+		config.properties.put( "driver", "sqlite" );
+		config.properties.put( "database", "memory:cacheDB;create=true" );
+
+		String expectedURL = "jdbc:sqlite:file:cacheDB?mode=memory&cache=shared";
+		assertThat( driver.buildConnectionURL( config ) ).isEqualTo( expectedURL );
+	}
+
+	@Test
+	@DisplayName( "Test buildConnectionURL() with :memory:" )
+	public void testBuildConnectionURLMemoryAnonymousDatabase() {
+		SQLiteDriver		driver	= new SQLiteDriver();
+		DatasourceConfig	config	= new DatasourceConfig();
+		config.properties.put( "driver", "sqlite" );
+		config.properties.put( "database", ":memory:" );
+
+		String expectedURL = "jdbc:sqlite::memory:";
+		assertThat( driver.buildConnectionURL( config ) ).isEqualTo( expectedURL );
+	}
+
 	@DisplayName( "Throw an exception if the database is not found" )
 	@Test
 	public void testBuildConnectionURLNoDatabase() {
