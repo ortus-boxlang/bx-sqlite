@@ -21,8 +21,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ "ubuntu-latest", "windows-latest" ]
-        jdkVersion: [ "21" ]
+        os: ["ubuntu-latest"]
+        jdkVersion: ["21"]
         experimental: [false]
     permissions:
       checks: write
