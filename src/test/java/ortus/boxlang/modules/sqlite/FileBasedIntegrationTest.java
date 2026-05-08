@@ -57,7 +57,7 @@ public class FileBasedIntegrationTest extends BaseIntegrationTest {
 	@DisplayName( "Test file-based database CREATE and SELECT" )
 	@Test
 	public void testFileBasedCreateAndSelect() throws Exception {
-		String dbPath = tempDbPath.toAbsolutePath().toString();
+		String dbPath = toSqlitePath( tempDbPath );
 
 		runtime.getConfiguration().datasources.put(
 		    moduleName,
@@ -94,7 +94,7 @@ public class FileBasedIntegrationTest extends BaseIntegrationTest {
 	@DisplayName( "Test file-based database UPDATE and verify persistence" )
 	@Test
 	public void testFileBasedUpdateAndPersistence() throws Exception {
-		String dbPath = tempDbPath.toAbsolutePath().toString();
+		String dbPath = toSqlitePath( tempDbPath );
 
 		runtime.getConfiguration().datasources.put(
 		    moduleName,
@@ -126,7 +126,7 @@ public class FileBasedIntegrationTest extends BaseIntegrationTest {
 	@DisplayName( "Test file-based database DELETE operations" )
 	@Test
 	public void testFileBasedDelete() throws Exception {
-		String dbPath = tempDbPath.toAbsolutePath().toString();
+		String dbPath = toSqlitePath( tempDbPath );
 
 		runtime.getConfiguration().datasources.put(
 		    moduleName,
@@ -162,7 +162,7 @@ public class FileBasedIntegrationTest extends BaseIntegrationTest {
 	@DisplayName( "Test file-based database with AUTOINCREMENT" )
 	@Test
 	public void testFileBasedAutoincrement() throws Exception {
-		String dbPath = tempDbPath.toAbsolutePath().toString();
+		String dbPath = toSqlitePath( tempDbPath );
 
 		runtime.getConfiguration().datasources.put(
 		    moduleName,
@@ -198,7 +198,7 @@ public class FileBasedIntegrationTest extends BaseIntegrationTest {
 	@DisplayName( "Test file-based database with transactions" )
 	@Test
 	public void testFileBasedTransactions() throws Exception {
-		String dbPath = tempDbPath.toAbsolutePath().toString();
+		String dbPath = toSqlitePath( tempDbPath );
 
 		runtime.getConfiguration().datasources.put(
 		    moduleName,

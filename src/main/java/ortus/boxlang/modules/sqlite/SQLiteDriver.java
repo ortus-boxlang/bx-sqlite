@@ -61,6 +61,9 @@ public class SQLiteDriver extends GenericJDBCDriver {
 
 		database = normalizeMemoryDatabasePath( database );
 
+		// Normalize file paths for cross-platform compatibility
+		database = normalizeFilePath( database );
+
 		// Build the Embedded URL
 		return String.format(
 		    "jdbc:sqlite:%s",
@@ -100,6 +103,25 @@ public class SQLiteDriver extends GenericJDBCDriver {
 
 		// Return the formatted memory database URL for the SQLite JDBC driver
 		return String.format( "file:%s?mode=memory&cache=shared", memoryName );
+	}
+
+	/**
+	 * Normalize file paths for cross-platform compatibility with SQLite JDBC driver.
+	 * Converts Windows backslashes to forward slashes and ensures proper path format.
+	 *
+	 * @param database The database path string
+	 *
+	 * @return The normalized database path
+	 */
+	private String normalizeFilePath( String database ) {
+		// Skip normalization for memory databases and special URIs
+		if ( database.startsWith( "memory:" ) || database.startsWith( "file:" ) || database.equals( ":memory:" ) ) {
+			return database;
+		}
+
+		// Normalize path separators for cross-platform compatibility
+		// SQLite JDBC expects forward slashes, even on Windows
+		return database.replace( "\\", "/" );
 	}
 
 }
