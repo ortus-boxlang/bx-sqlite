@@ -44,6 +44,16 @@ public class FileBasedIntegrationTest extends BaseIntegrationTest {
 
 	@AfterEach
 	public void teardownFileTest() throws Exception {
+		// Close the datasource pool FIRST (Windows requires files to be closed before deletion)
+		super.teardownEach();
+
+		// Give the pool a moment to fully release the file handle on Windows
+		try {
+			Thread.sleep( 100 );
+		} catch ( InterruptedException e ) {
+			Thread.currentThread().interrupt();
+		}
+
 		if ( tempDbPath != null ) {
 			Files.deleteIfExists( tempDbPath );
 			Path parent = tempDbPath.getParent();
@@ -51,7 +61,6 @@ public class FileBasedIntegrationTest extends BaseIntegrationTest {
 				Files.deleteIfExists( parent );
 			}
 		}
-		super.teardownEach();
 	}
 
 	@DisplayName( "Test file-based database CREATE and SELECT" )
