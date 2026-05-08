@@ -59,10 +59,10 @@ public class SQLiteDriver extends GenericJDBCDriver {
 			throw new IllegalArgumentException( "The database property is required for the SQLite JDBC Driver" );
 		}
 
-		database = normalizeMemoryDatabasePath( database );
+		database	= normalizeMemoryDatabasePath( database );
 
 		// Normalize file paths for cross-platform compatibility
-		database = normalizeFilePath( database );
+		database	= normalizeFilePath( database );
 
 		// Build the Embedded URL
 		return String.format(
