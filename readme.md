@@ -26,6 +26,7 @@ This module provides a BoxLang JDBC driver for SQLite databases, enabling seamle
 - 🔄 **BoxLang Integration**: Native support for BoxLang's `queryExecute()` and datasource management
 - ⚡ **Zero Configuration**: Works out of the box with minimal setup
 - 🧪 **Testing Ready**: Ideal for unit tests with in-memory databases
+- 🔍 **Full-Text Search**: Built-in support for SQLite's FTS5 virtual tables via the bundled `sqlite-jdbc` driver
 
 ## Installation
 
@@ -192,6 +193,44 @@ try {
     rethrow;
 }
 ```
+
+### Full-Text Search (FTS5)
+
+`bx-sqlite` bundles the `org.xerial:sqlite-jdbc` driver, which ships with SQLite's FTS5 module compiled in. There's no special bx-sqlite API for it — you create and query FTS5 virtual tables with plain SQL through the same `queryExecute()`/datasource interface used for regular tables:
+
+```javascript
+// Create an FTS5 virtual table
+queryExecute("
+    CREATE VIRTUAL TABLE articles USING fts5(title, body)
+", [], {"datasource": "mainDB"});
+
+// Insert data like any other table
+queryExecute("
+    INSERT INTO articles (title, body)
+    VALUES (?, ?)
+", ["BoxLang Release", "BoxLang is a dynamic JVM language for the modern developer."], {"datasource": "mainDB"});
+
+// Search using the MATCH operator
+results = queryExecute("
+    SELECT title, body
+    FROM articles
+    WHERE articles MATCH ?
+    ORDER BY rank
+", ["boxlang"], {"datasource": "mainDB"});
+```
+
+FTS5's ranking and highlighting helpers (`bm25()`, `snippet()`, `highlight()`) are also available since they ship with the module:
+
+```javascript
+results = queryExecute("
+    SELECT title, snippet(articles, 1, '<b>', '</b>', '...', 10) as excerpt
+    FROM articles
+    WHERE articles MATCH ?
+    ORDER BY bm25(articles)
+", ["boxlang"], {"datasource": "mainDB"});
+```
+
+See [SQLite's FTS5 documentation](https://www.sqlite.org/fts5.html) for the full syntax reference.
 
 ### Testing with In-Memory Databases
 
@@ -360,6 +399,7 @@ this.datasources["debugDB"] = {
 
 - **Documentation**: [BoxLang Database Guide](https://boxlang.ortusbooks.com/boxlang-language/syntax/queries)
 - **SQLite Documentation**: [https://www.sqlite.org/docs.html](https://www.sqlite.org/docs.html)
+- **SQLite FTS5 Documentation**: [https://www.sqlite.org/fts5.html](https://www.sqlite.org/fts5.html)
 - **Issues & Support**: [GitHub Issues](https://github.com/ortus-boxlang/bx-sqlite/issues)
 - **ForgeBox**: [bx-sqlite Package](https://forgebox.io/view/bx-sqlite)
 
