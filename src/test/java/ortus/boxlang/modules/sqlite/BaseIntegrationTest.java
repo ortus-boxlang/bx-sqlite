@@ -70,7 +70,7 @@ public abstract class BaseIntegrationTest {
 	}
 
 	protected void loadModule() {
-		String physicalPath = Paths.get( "./build/module" ).toAbsolutePath().toString();
+		String physicalPath = Paths.get( "./build/module" ).toAbsolutePath().normalize().toString();
 		moduleRecord = new ModuleRecord( physicalPath );
 
 		moduleService.getRegistry().put( moduleName, moduleRecord );
@@ -88,7 +88,19 @@ public abstract class BaseIntegrationTest {
 	protected String freshFileDatabase( String name ) throws Exception {
 		Path	tempDir	= Files.createTempDirectory( "sqlite-test-" );
 		Path	dbFile	= tempDir.resolve( name + ".db" );
-		return dbFile.toAbsolutePath().toString();
+		return dbFile.toAbsolutePath().normalize().toString();
+	}
+
+	/**
+	 * Convert a file path to a SQLite-compatible URL string.
+	 * Normalizes path separators to forward slashes for cross-platform compatibility.
+	 *
+	 * @param path The file path
+	 *
+	 * @return SQLite-compatible path string
+	 */
+	protected String toSqlitePath( Path path ) {
+		return path.toAbsolutePath().normalize().toString().replace( "\\", "/" );
 	}
 
 }

@@ -44,6 +44,16 @@ public class FileBasedIntegrationTest extends BaseIntegrationTest {
 
 	@AfterEach
 	public void teardownFileTest() throws Exception {
+		// Close the datasource pool FIRST (Windows requires files to be closed before deletion)
+		super.teardownEach();
+
+		// Give the pool a moment to fully release the file handle on Windows
+		try {
+			Thread.sleep( 100 );
+		} catch ( InterruptedException e ) {
+			Thread.currentThread().interrupt();
+		}
+
 		if ( tempDbPath != null ) {
 			Files.deleteIfExists( tempDbPath );
 			Path parent = tempDbPath.getParent();
@@ -51,13 +61,12 @@ public class FileBasedIntegrationTest extends BaseIntegrationTest {
 				Files.deleteIfExists( parent );
 			}
 		}
-		super.teardownEach();
 	}
 
 	@DisplayName( "Test file-based database CREATE and SELECT" )
 	@Test
 	public void testFileBasedCreateAndSelect() throws Exception {
-		String dbPath = tempDbPath.toAbsolutePath().toString();
+		String dbPath = toSqlitePath( tempDbPath );
 
 		runtime.getConfiguration().datasources.put(
 		    moduleName,
@@ -94,7 +103,7 @@ public class FileBasedIntegrationTest extends BaseIntegrationTest {
 	@DisplayName( "Test file-based database UPDATE and verify persistence" )
 	@Test
 	public void testFileBasedUpdateAndPersistence() throws Exception {
-		String dbPath = tempDbPath.toAbsolutePath().toString();
+		String dbPath = toSqlitePath( tempDbPath );
 
 		runtime.getConfiguration().datasources.put(
 		    moduleName,
@@ -126,7 +135,7 @@ public class FileBasedIntegrationTest extends BaseIntegrationTest {
 	@DisplayName( "Test file-based database DELETE operations" )
 	@Test
 	public void testFileBasedDelete() throws Exception {
-		String dbPath = tempDbPath.toAbsolutePath().toString();
+		String dbPath = toSqlitePath( tempDbPath );
 
 		runtime.getConfiguration().datasources.put(
 		    moduleName,
@@ -162,7 +171,7 @@ public class FileBasedIntegrationTest extends BaseIntegrationTest {
 	@DisplayName( "Test file-based database with AUTOINCREMENT" )
 	@Test
 	public void testFileBasedAutoincrement() throws Exception {
-		String dbPath = tempDbPath.toAbsolutePath().toString();
+		String dbPath = toSqlitePath( tempDbPath );
 
 		runtime.getConfiguration().datasources.put(
 		    moduleName,
@@ -198,7 +207,7 @@ public class FileBasedIntegrationTest extends BaseIntegrationTest {
 	@DisplayName( "Test file-based database with transactions" )
 	@Test
 	public void testFileBasedTransactions() throws Exception {
-		String dbPath = tempDbPath.toAbsolutePath().toString();
+		String dbPath = toSqlitePath( tempDbPath );
 
 		runtime.getConfiguration().datasources.put(
 		    moduleName,
